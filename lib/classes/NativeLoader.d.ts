@@ -35,6 +35,8 @@ export interface NativeBdkRn {
     listTransactions(id: string): Array<TransactionDetails>;
     initAddress(address: string): string;
     addressToScriptPubkeyHex(id: string): string;
+    initScript(addressid: string): string;
+    scriptsToBytes(id: string): string;
     createTxBuilder(): string;
     addRecipient(id: string, scriptId: string, amount: number): string;
     finish(id: string, walletId: string): {
@@ -78,8 +80,6 @@ export interface NativeBdkRn {
     bumpFeeTxBuilderFinish(id: string, walletId: string): any;
     createTransaction(bytes: Array<number>): string;
     serializeTransaction(id: string): Array<number>;
-    initScript(addressid: string): string;
-    scriptsToBytes(id: string): Array;
 }
 export declare class NativeLoader {
     protected _bdk: NativeBdkRn;

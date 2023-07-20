@@ -498,9 +498,7 @@ class BdkRnModule(reactContext: ReactApplicationContext) :
     @ReactMethod
     fun scriptsToBytes(id: String, result: Promise) {
         val bytes = _scripts[id]!!.toBytes()
-        val responseObject = mutableMapOf<String, Any?>()
-        responseObject["data"] = _scripts[id]!!.toBytes().toString()
-        result.resolve(Arguments.makeNativeMap(responseObject))
+        result.resolve(bytes.toString())
     }
     /** CustomScript methods ends*/
 

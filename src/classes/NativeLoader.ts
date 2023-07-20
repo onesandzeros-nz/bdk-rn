@@ -63,7 +63,7 @@ export interface NativeBdkRn {
   addressToScriptPubkeyHex(id: string): string;
 
   initScript(addressid: string): string;
-  toBytes(): Array<number>;
+  scriptsToBytes(id: string): string;
 
   createTxBuilder(): string;
   addRecipient(id: string, scriptId: string, amount: number): string;
