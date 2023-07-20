@@ -17,9 +17,8 @@ export class CustomScript extends NativeLoader {
   }
 
   async toBytes(): Promise<Array<number>> {
-    const script = await this._bdk.toBytes();
-    const data = typeof script === 'object' ? script.data : script;
-    const byteArr = data.replace('[', '').replace(']', '').split(', ').map(function (x: any) { 
+    const script = await this._bdk.scriptsToBytes(this.id);
+    const byteArr = (script.data).replace('[', '').replace(']', '').split(', ').map(function (x: any) { 
       return parseInt(x, 10); 
     });
     return byteArr;
