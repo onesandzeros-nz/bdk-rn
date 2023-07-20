@@ -11,12 +11,12 @@ export class CustomScript extends NativeLoader {
    * @param address
    * @returns {Promise<Address>}
    */
-  async create(addressid: string): Promise<Address> {
+  async create(addressid: string): Promise<CustomScript> {
     this.id = await this._bdk.initScript(addressid);
     return this;
   }
 
-  async toBytes(): Promise<Script> {
+  async toBytes(): Promise<Array<number>> {
     const script = await this._bdk.toBytes(this.id);
     script.data = (script.data).replace('[', '').replace(']', '').split(', ').map(function (x) { 
       return parseInt(x, 10); 
