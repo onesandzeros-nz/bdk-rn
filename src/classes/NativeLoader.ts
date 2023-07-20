@@ -62,6 +62,9 @@ export interface NativeBdkRn {
   initAddress(address: string): string;
   addressToScriptPubkeyHex(id: string): string;
 
+  initScript(addressid: string): string;
+  toBytes(): Array<number>;
+
   createTxBuilder(): string;
   addRecipient(id: string, scriptId: string, amount: number): string;
   finish(id: string, walletId: string): { base64: string; transactionDetails: any };
