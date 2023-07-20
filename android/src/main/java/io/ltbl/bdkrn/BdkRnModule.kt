@@ -386,7 +386,7 @@ class BdkRnModule(reactContext: ReactApplicationContext) :
                 val addressInfo = getWalletById(id).getAddress(setAddressIndex(addressIndex))
                 val responseObject = mutableMapOf<String, Any?>()
                 responseObject["index"] = addressInfo.index.toInt()
-                responseObject["address"] = addressInfo.address
+                responseObject["address"] = addressInfo.address.asString()
                 result.resolve(Arguments.makeNativeMap(responseObject))
             }.start()
         } catch (error: Throwable) {
@@ -428,8 +428,7 @@ class BdkRnModule(reactContext: ReactApplicationContext) :
                 unspentObject["outpoint"] =
                     mutableMapOf("txid" to item.outpoint.txid, "vout" to item.outpoint.vout.toInt())
                 unspentObject["txout"] = mutableMapOf(
-                    "value" to item.txout.value.toInt(),
-                    "address" to item.txout.address
+                    "value" to item.txout.value.toInt()
                 )
                 unspentObject["isSpent"] = item.isSpent
                 unpents.add(unspentObject)
@@ -443,7 +442,7 @@ class BdkRnModule(reactContext: ReactApplicationContext) :
     @ReactMethod
     fun listTransactions(id: String, result: Promise) {
         try {
-            val list = getWalletById(id).listTransactions()
+            val list = getWalletById(id).listTransactions(true)
             val transactions: MutableList<Map<String, Any?>> = mutableListOf()
             for (item in list) transactions.add(getTransactionObject(item))
             result.resolve(Arguments.makeNativeArray(transactions))
@@ -456,7 +455,7 @@ class BdkRnModule(reactContext: ReactApplicationContext) :
     fun sign(id: String, psbtBase64: String, result: Promise) {
         try {
             val psbt = PartiallySignedTransaction(psbtBase64)
-            getWalletById(id).sign(psbt)
+            getWalletById(id).sign(psbt, null)
             result.resolve(psbt.serialize())
         } catch (error: Throwable) {
             result.reject("Sign PSBT error", error.localizedMessage, error)
@@ -484,6 +483,31 @@ class BdkRnModule(reactContext: ReactApplicationContext) :
         result.resolve(scriptId)
     }
     /** Address methods ends*/
+
+    /** CustomScript methods starts*/
+    @ReactMethod
+    fun initScript(addressid: String, result: Promise) {
+        try {
+            val scriptId = randomId()
+            _scripts[scriptId] = _addresses[addressid]!!.scriptPubkey()
+            result.resolve(scriptId)
+        } catch (error: Throwable) {
+            result.reject("Script error", error.localizedMessage, error)
+        }
+    }
+    @ReactMethod
+    fun toBytes(id: String, result: Promise) {
+        val bytes = _scripts[id]!!.toBytes()
+        val responseObject = mutableMapOf<String, Any?>()
+        responseObject["data"] = _scripts[id]!!.toBytes().toString()
+        result.resolve(Arguments.makeNativeMap(responseObject))
+
+        //result.resolve(bytes)
+        //val script = _scripts[id]
+
+        //result.resolve(_scripts[id]!!.pointer)
+    }
+    /** CustomScript methods ends*/
 
 
     /** TxBuilder methods starts */

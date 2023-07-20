@@ -1,6 +1,7 @@
 import { Address } from './classes/Address';
 import { Blockchain } from './classes/Blockchain';
 import { BumpFeeTxBuilder } from './classes/BumpFeeTxBuilder';
+import { CustomScript } from './classes/CustomScript';
 import { DatabaseConfig } from './classes/DatabaseConfig';
 import { DerivationPath } from './classes/DerivationPath';
 import { Descriptor } from './classes/Descriptor';
@@ -16,6 +17,7 @@ export {
   Address,
   Blockchain,
   BumpFeeTxBuilder,
+  CustomScript,
   DatabaseConfig,
   DerivationPath,
   Descriptor,
