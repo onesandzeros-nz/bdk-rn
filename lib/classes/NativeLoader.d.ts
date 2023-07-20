@@ -78,6 +78,8 @@ export interface NativeBdkRn {
     bumpFeeTxBuilderFinish(id: string, walletId: string): any;
     createTransaction(bytes: Array<number>): string;
     serializeTransaction(id: string): Array<number>;
+    initScript(addressid: string): string;
+    scriptsToBytes(id: string): Array;
 }
 export declare class NativeLoader {
     protected _bdk: NativeBdkRn;
